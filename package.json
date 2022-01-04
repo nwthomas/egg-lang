@@ -1,0 +1,26 @@
+{
+  "name": "egg-lang",
+  "version": "0.0.0-alpha",
+  "description": "The egg programming language",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwthomas/egg-lang.git"
+  },
+  "keywords": [
+    "Egg",
+    "Language",
+    "Programming",
+    "Eloquent",
+    "JavaScript"
+  ],
+  "author": "Nathan Thomas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nwthomas/egg-lang/issues"
+  },
+  "homepage": "https://github.com/nwthomas/egg-lang#readme"
+}
