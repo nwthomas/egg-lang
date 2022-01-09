@@ -2,9 +2,7 @@ const evaluate = require("./evaluator.js");
 const parse = require("./parser.js");
 const topScope = require("./environment.js");
 
-function run(program) {
-  return evaluate(parse(program), Object.create(topScope));
-}
+const run = (program) => evaluate(parse(program), Object.create(topScope));
 
 run(`
 do(define(total, 0),
