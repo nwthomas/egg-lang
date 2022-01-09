@@ -1,3 +1,4 @@
+// Handle special words that give directives for applications
 const specialForms = Object.create(null);
 
 specialForms.do = (args, scope) => {
@@ -74,26 +75,43 @@ specialForms.fun = (args, scope) => {
   };
 };
 
+// Handle evaluating any AST from Eggland given to it
 function evaluate(expr, scope) {
+  // Handle case where expression type is a value
   if (expr.type == "value") {
     return expr.value;
-  } else if (expr.type == "word") {
-    if (expr.name in scope) {
-      return scope[expr.name];
-    } else {
-      throw new ReferenceError(`Undefined binding: ${expr.name}`);
-    }
-  } else if (expr.type == "apply") {
+  }
+
+  // Handle case where expression is word in scope
+  else if (expr.type == "word" && expr.name in scope) {
+    return scope[expr.name];
+  }
+
+  // Handle case where expression is word and NOT in scope
+  else if (expr.type === "word") {
+    throw new ReferenceError(`Undefined binding: ${expr.name}`);
+  }
+
+  // Handle case where expression is type apply and pull from special forms
+  else if (expr.type == "apply") {
     const { operator, args } = expr;
 
+    // If apply type and in specialForms object
     if (operator.type == "word" && operator.name in specialForms) {
       return specialForms[operator.name](expr.args, scope);
-    } else {
+    }
+
+    // Else recursively evaluate operator and scope
+    else {
       const op = evaluate(operator, scope);
 
+      // If returned type of evaluate is function, run it with recursive calls to evaluate
       if (typeof op == "function") {
         return op(...args.map((arg) => evaluate(arg, scope)));
-      } else {
+      }
+
+      // Else throw TypeError
+      else {
         throw new TypeError("Applying a non-function.");
       }
     }
